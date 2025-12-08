@@ -63,10 +63,10 @@ export default function SignInPage() {
 
       if (result?.error) {
         setError("Failed to sign in with Google");
-      } else if (result?.ok) {
-        router.push("/dashboard");
+      } else if (result?.url) {
+        router.push(result.url);
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred");
     } finally {
       setIsLoading(false);

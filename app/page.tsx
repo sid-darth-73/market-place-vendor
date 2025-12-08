@@ -38,7 +38,7 @@ export default function VendorLandingPage() {
     if (session) {
       router.push("/dashboard");
     } else {
-      router.push("/auth/signin");
+      router.push("/auth/sign-in");
     }
   };
 

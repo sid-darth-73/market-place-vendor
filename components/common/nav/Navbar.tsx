@@ -111,7 +111,7 @@ export default function Navbar() {
               <ProfileMenu user={session.user} />
             ) : (
               <>
-                <Link href="/auth/signin">
+                <Link href="/auth/sign-in">
                   <Button
                     size="sm"
                     className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-200 hover:scale-105 shadow-lg"

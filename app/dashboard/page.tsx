@@ -8,7 +8,7 @@ export default async function DashboardPage() {
 
   // Redirect if not authenticated
   if (!session?.user?.id) {
-    redirect("/auth/signin");
+    redirect("/auth/sign-in");
   }
 
   // Fetch fresh user data from database (not from token)
@@ -16,7 +16,7 @@ export default async function DashboardPage() {
 
   // If user not found in database or not a vendor
   if (!dbUser || dbUser.role !== "vendor") {
-    redirect("/auth/signin");
+    redirect("/auth/sign-in");
   }
 
   // Prepare user object with FRESH data from database

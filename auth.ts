@@ -94,34 +94,33 @@ const config: NextAuthConfig = {
       return true;
     },
     async session({ session, token }: any) {
-      if (session.user && token.email) {
-        const dbUser = await getUserByEmail(token.email);
-        if (dbUser) {
-          // Only allow vendors
-          if (dbUser.role !== "vendor") {
-            return null;
-          }
-          session.user.id = dbUser.userId;
-          session.user.role = dbUser.role;
-          session.user.vendorVerified = dbUser.vendorVerified;
-        }
+      if (session.user && token.userId) {
+        session.user.id = token.userId;
+        session.user.role = token.role;
+        session.user.vendorVerified = token.vendorVerified;
       }
       return session;
     },
     async jwt({ token, user }: any) {
-      if (user?.email) token.email = user.email;
-      if (token.email) {
+      // On first sign in (when user object exists)
+      if (user) {
+        token.email = user.email;
+      }
+      
+      // Fetch user data from database if not already in token
+      if (token.email && !token.userId) {
         const dbUser = await getUserByEmail(token.email);
         if (dbUser && dbUser.role === "vendor") {
+          token.userId = dbUser.userId;
           token.role = dbUser.role;
           token.vendorVerified = dbUser.vendorVerified;
-          token.userId = dbUser.userId;
         }
       }
+      
       return token;
     },
   },
-  pages: { signIn: "/auth/signin" },
+  pages: { signIn: "/auth/sign-in" },
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
 };
